@@ -1,6 +1,8 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
+
+from schemas_package.deck_schemas import DeckSchema
 
 
 class UserBaseSchema(BaseModel):
@@ -15,5 +17,4 @@ class UserSchema(UserBaseSchema):
 
 
 class UserSchemaNested(UserSchema):
-    #list_of_decks: List[DeckSchema]
-    pass
+    list_of_decks: List[DeckSchema]

@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
 
-import schemas_package
 from core import models
 from schemas_package import user_schemas
 
@@ -34,7 +33,8 @@ def delete_user(db: Session, user_id: int):
         result_str = f"User with id {user_id} was deleted"
         return result_str
     except Exception as e:
-        result_str = "Mistake when was tried deleted user " + str(user_id)
+        result_str = "We caught exception when was tried deleted user with id" + str(user_id)
+        print(result_str)
         return result_str
 
 

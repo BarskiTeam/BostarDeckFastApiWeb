@@ -35,7 +35,7 @@ async def create_user(user: user_schemas.UserBaseSchema, db: Session = Depends(g
 async def get_all_users(db: Session = Depends(get_db)):
     list_of_users = user_crud.get_list_of_users(db)
     if list_of_users is None:
-        raise HTTPException(status_code=404, detail="Users has not find")
+        raise HTTPException(status_code=404, detail="Users has not found")
     return list_of_users
 
 
@@ -43,15 +43,24 @@ async def get_all_users(db: Session = Depends(get_db)):
 async def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     user = user_crud.get_user(db, user_id=user_id)
     if user is None:
-        raise HTTPException(status_code=404, detail="Użytkownik nie znaleziony.")
+        raise HTTPException(status_code=404, detail="User by this id not exist")
     return user
 
 
 ################ DELETE ##################
-@router.delete("/id={}")
+@router.delete("/id={user_id}")
 async def delete_id_user(user_id: int, db: Session = Depends(get_db)):
     result_str = user_crud.delete_user(db, user_id)
     if result_str is not None:
         return JSONResponse(status_code=status.HTTP_200_OK, content={"message": result_str})
     elif result_str is None:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": f"user with id {user_id} not exist"})
+
+
+@router.delete("/all")
+async def delete_all_users(db: Session = Depends(get_db)):
+    result_str = user_crud.delete_all_users(db)
+    if result_str is not None:
+        return JSONResponse(status_code=status.HTTP_200_OK, content={"message": result_str})
+    else:
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": "I can't delete all users"})

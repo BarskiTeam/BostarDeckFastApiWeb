@@ -17,6 +17,7 @@ class Deck(Base):
     __tablename__ = "list_of_decks"
 
     id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
     description = Column(String)
     tag = Column(String)
     public = Column(Boolean, default=False)
@@ -29,8 +30,8 @@ class Flashcard(Base):
     __tablename__ = "list_of_flashcards"
 
     id = Column(Integer, primary_key=True, index=True)
-    averse = Column(String)
-    reverse = Column(String)
+    avers = Column(String)
+    revers = Column(String)
     tip = Column(String)
     deck_id = Column(Integer, ForeignKey("list_of_decks.id", ondelete="CASCADE"))
     deck = relationship("Deck", back_populates="list_of_flashcards")
